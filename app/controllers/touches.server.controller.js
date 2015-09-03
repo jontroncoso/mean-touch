@@ -89,12 +89,11 @@ exports.list = function(req, res) {
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-      _.each(mongoose.modelNames(), function(e,i){
-        if(touches[e])
-        {
-          touch = touches[e];
-        }
-        else
+      _.each(mongoose.modelNames(), function(e){
+        touch = touches.filter(function( t ) {
+          return t.name === e;
+        })[0];
+        if(!touch)
         {
           touch = new Touch();
           touch.user = req.user;
