@@ -14,7 +14,8 @@ var TouchSchema = new Schema({
 		type: String,
 		default: '',
 		required: 'Please fill Touch name',
-		trim: true
+		trim: true,
+    unique: true
 	},
 	created: {
 		type: Date,
@@ -23,7 +24,11 @@ var TouchSchema = new Schema({
 	user: {
 		type: Schema.ObjectId,
 		ref: 'User'
-	}
+	},
+  location: {
+    type: [Number],
+    required: 'location required'
+  }
 });
 
 mongoose.model('Touch', TouchSchema);

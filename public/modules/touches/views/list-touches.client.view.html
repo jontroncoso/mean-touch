@@ -1,4 +1,12 @@
-<svg id="touch-svg" data-ng-controller="TouchesController" data-ng-init="find()"></svg>
+<svg id="touch-svg" data-ng-controller="TouchesController" data-ng-init="find()">
+    <defs>
+        <filter id="fancy-goo">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur"></feGaussianBlur>
+            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo"></feColorMatrix>
+            <feComposite in="SourceGraphic" in2="goo" operator="atop"></feComposite>
+        </filter>
+    </defs>
+</svg>
 <!--<section data-ng-controller="TouchesController" data-ng-init="find()">-->
     <!--<div class="page-header">-->
         <!--<h1>Touches</h1>-->

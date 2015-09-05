@@ -98,6 +98,7 @@ exports.list = function(req, res) {
           touch = new Touch();
           touch.user = req.user;
           touch.name = e;
+          touch.location = [Math.floor(Math.random() * (90)),Math.floor(Math.random() * (90))];
           touch.save(function(err) {
             if (err) {
               return res.status(400).send({

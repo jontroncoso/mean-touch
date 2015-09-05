@@ -2,8 +2,39 @@ svg {
   height: 100vh;
   display: block;
 }
+
 svg, .content, .container {
   padding: 0;
   margin: 0;
   width: 100%;
+}
+
+svg circle {
+  transition: transform 0.5s;
+  transform-origin: center;
+}
+svg g.group {
+  cursor: pointer;
+}
+svg g.group text {
+  color: #FF0000;
+}
+
+svg g.group .title {
+  transform-origin: center;
+  transition: transform 0.5s;
+}
+
+svg g.group:hover circle,
+svg g.group.active circle {
+  transform: scale(2);
+}
+
+svg g.group:hover .title,
+svg g.group.active .title {
+  -webkit-transform: translateX(15px);
+  -moz-transform: translateX(15px);
+  -ms-transform: translateX(15px);
+  -o-transform: translateX(15px);
+  transform: translateX(15px);
 }
