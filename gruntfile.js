@@ -139,11 +139,25 @@ module.exports = function(grunt) {
 			unit: {
 				configFile: 'karma.conf.js'
 			}
-		}
+    },
+    sass: {                              // Task
+      dist: {                            // Target
+        options: {                       // Target options
+          style: 'expanded'
+        },
+        files: {                         // Dictionary of files
+          //'main.css': 'main.scss',       // 'destination': 'source'
+          //'widgets.css': 'widgets.scss',
+          'public/css/style.css': 'public/modules/**/css/*.{scss,sass}'
+        }
+      }
+    }
 	});
 
 	// Load NPM tasks
 	require('load-grunt-tasks')(grunt);
+
+  grunt.loadNpmTasks('grunt-contrib-sass');
 
 	// Making grunt default to force in order not to break the project.
 	grunt.option('force', true);
@@ -158,7 +172,7 @@ module.exports = function(grunt) {
 	});
 
 	// Default task(s).
-	grunt.registerTask('default', ['lint', 'concurrent:default']);
+	grunt.registerTask('default', ['lint', 'sass', 'concurrent:default']);
 
 	// Debug task.
 	grunt.registerTask('debug', ['lint', 'concurrent:debug']);

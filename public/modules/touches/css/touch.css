@@ -3,10 +3,8 @@ svg {
   display: block;
 }
 
-svg, .content, .container {
+svg {
   padding: 0;
-  margin: 0;
-  width: 100%;
 }
 
 svg circle {
@@ -23,18 +21,19 @@ svg g.group text {
 svg g.group .title {
   transform-origin: center;
   transition: transform 0.5s;
+  /*transform: translateX(100%);*/
 }
 
-svg g.group:hover circle,
-svg g.group.active circle {
+svg g.group:hover circle.base,
+svg g.group.active circle.base {
   transform: scale(2);
 }
 
-svg g.group:hover .title,
+svg g.group:hover .title {
+  /*transform: translateX(100%) translateX(15px);*/
+  transform: translateY(-15px);
+}
+
 svg g.group.active .title {
-  -webkit-transform: translateX(15px);
-  -moz-transform: translateX(15px);
-  -ms-transform: translateX(15px);
-  -o-transform: translateX(15px);
-  transform: translateX(15px);
+  transform: translateY(-55px) scale(1.5);
 }

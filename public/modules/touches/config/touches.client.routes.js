@@ -15,7 +15,7 @@ angular.module('touches').config(['$stateProvider',
 		}).
 		state('viewTouch', {
 			url: '/touches/:touchId',
-			templateUrl: 'modules/touches/views/view-touch.client.view.html'
+			templateUrl: 'modules/touches/views/list-touches.client.view.html'
 		}).
 		state('editTouch', {
 			url: '/touches/:touchId/edit',
