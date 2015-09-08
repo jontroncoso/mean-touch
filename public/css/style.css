@@ -1,19 +1,17 @@
 svg {
   height: 100vh;
   display: block;
-}
-
-svg {
   padding: 0;
 }
-
 svg circle {
   transition: transform 0.5s;
   transform-origin: center;
 }
+
 svg g.group {
   cursor: pointer;
 }
+
 svg g.group text {
   color: #FF0000;
 }
@@ -37,3 +35,5 @@ svg g.group:hover .title {
 svg g.group.active .title {
   transform: translateY(-55px) scale(1.5);
 }
+
+/*# sourceMappingURL=style.css.map */

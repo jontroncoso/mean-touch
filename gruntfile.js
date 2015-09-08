@@ -7,7 +7,7 @@ module.exports = function(grunt) {
 		serverJS: ['gruntfile.js', 'server.js', 'config/**/*.js', 'app/**/*.js'],
 		clientViews: ['public/modules/**/views/**/*.html'],
 		clientJS: ['public/js/*.js', 'public/modules/**/*.js'],
-		clientCSS: ['public/modules/**/*.css'],
+		clientCSS: ['public/modules/**/*.css', 'public/css/style.css'],
 		mochaTests: ['app/tests/**/*.js']
 	};
 
@@ -148,7 +148,7 @@ module.exports = function(grunt) {
         files: {                         // Dictionary of files
           //'main.css': 'main.scss',       // 'destination': 'source'
           //'widgets.css': 'widgets.scss',
-          'public/css/style.css': 'public/modules/**/css/*.{scss,sass}'
+          'public/css/style.css': 'public/modules/**/css/*.scss'
         }
       }
     }
@@ -158,8 +158,10 @@ module.exports = function(grunt) {
 	require('load-grunt-tasks')(grunt);
 
   grunt.loadNpmTasks('grunt-contrib-sass');
+  grunt.loadNpmTasks('grunt-sass-globbing');
 
-	// Making grunt default to force in order not to break the project.
+
+  // Making grunt default to force in order not to break the project.
 	grunt.option('force', true);
 
 	// A Task for loading the configuration object

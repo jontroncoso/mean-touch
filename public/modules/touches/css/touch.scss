@@ -1,0 +1,37 @@
+svg {
+  height: 100vh;
+  display: block;
+  padding: 0;
+  circle {
+    transition: transform 0.5s;
+    transform-origin: center;
+
+  }
+}
+
+svg g.group {
+  cursor: pointer;
+}
+svg g.group text {
+  color: #FF0000;
+}
+
+svg g.group .title {
+  transform-origin: center;
+  transition: transform 0.5s;
+  /*transform: translateX(100%);*/
+}
+
+svg g.group:hover circle.base,
+svg g.group.active circle.base {
+  transform: scale(2);
+}
+
+svg g.group:hover .title {
+  /*transform: translateX(100%) translateX(15px);*/
+  transform: translateY(-15px);
+}
+
+svg g.group.active .title {
+  transform: translateY(-55px) scale(1.5);
+}
