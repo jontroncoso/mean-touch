@@ -2,13 +2,14 @@ svg#touch-svg {
   height: 100vh;
   display: block;
   padding: 0;
+
   circle {
     transition: transform 0.5s;
     transform-origin: center;
-
   }
   g.group {
     cursor: pointer;
+    //filter:url('#fancy-goo');
 
     text {
       color: #FF0000;
