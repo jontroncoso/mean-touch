@@ -1,4 +1,4 @@
-svg {
+svg#touch-svg {
   height: 100vh;
   display: block;
   padding: 0;
@@ -7,21 +7,22 @@ svg {
     transform-origin: center;
 
   }
-}
+  g.group {
+    cursor: pointer;
 
-svg g.group {
-  cursor: pointer;
+    text {
+      color: #FF0000;
+    }
+    .title {
+      transform-origin: center;
+      transition: transform 0.5s;
+      /*transform: translateX(100%);*/
+    }
+  }
 }
-svg g.group text {
-  color: #FF0000;
+section.content {
+  margin: 0;
 }
-
-svg g.group .title {
-  transform-origin: center;
-  transition: transform 0.5s;
-  /*transform: translateX(100%);*/
-}
-
 svg g.group:hover circle.base,
 svg g.group.active circle.base {
   transform: scale(2);

@@ -4,6 +4,11 @@
 angular.module('touches').controller('TouchesController', ['$scope', '$stateParams', '$location', '$window', 'Authentication', 'Touches', 'TouchPoints',
   function ($scope, $stateParams, $location, $window, Authentication, Touches, TouchPoints) {
     $scope.authentication = Authentication;
+    $scope.touchPoints = [];
+
+    setTimeout(function(){
+      console.log($scope.touchPoints);
+    }, 10000);
 
     // Create new Touch
     $scope.create = function () {
@@ -54,7 +59,10 @@ angular.module('touches').controller('TouchesController', ['$scope', '$statePara
     // Find a list of Touches
     $scope.find = function () {
       Touches.query().$promise.then(function (data) {
-        TouchPoints.setPoints(data);
+        console.log(TouchPoints);
+        var touchPoints = new TouchPoints();
+        touchPoints.setPoints(data);
+        $scope.touchPoints = touchPoints.touchPoints;
       });
     };
 
