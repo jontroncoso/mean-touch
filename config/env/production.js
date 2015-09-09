@@ -2,13 +2,14 @@
 
 module.exports = {
 	//db: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + (process.env.DB_1_PORT_27017_TCP_ADDR || 'localhost') + '/mean-touch',
-  db: "mongodb://meanie:bobeanie@ds039431.mongolab.com:39431/heroku_h2km37xb",
+  db: 'mongodb://meanie:bobeanie@ds039431.mongolab.com:39431/heroku_h2km37xb',
 	assets: {
 		lib: {
 			css: [
 				'public/lib/bootstrap/dist/css/bootstrap.min.css',
 				'public/lib/bootstrap/dist/css/bootstrap-theme.min.css',
-			],
+        'public/css/style.css'
+      ],
 			js: [
 				'public/lib/angular/angular.min.js',
 				'public/lib/angular-resource/angular-resource.js', 
@@ -18,8 +19,9 @@ module.exports = {
 				'public/lib/angular-sanitize/angular-sanitize.js', 
 				'public/lib/angular-ui-router/release/angular-ui-router.min.js',
 				'public/lib/angular-ui-utils/ui-utils.min.js',
-				'public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js'
-			]
+				'public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
+        'public/lib/Snap.svg/dist/snap.svg.js'
+      ]
 		},
 		css: 'public/dist/application.min.css',
 		js: 'public/dist/application.min.js'
