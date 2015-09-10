@@ -45,40 +45,45 @@ angular.module('touches').factory('Touches', ['$resource',
 
       };
       var activate = function () {
-        console.log('$this.preventClick: %o', $this.preventClick);
-        if ($this.point.hasClass('active'))return deactivate();
         if ($this.preventClick) {
           $this.preventClick = false;
           return;
         }
+        if ($this.point.hasClass('active'))return deactivate();
         var fieldCount = Object.keys(options.modelData).length;
         var i = 0;
         var fieldContainer = svg.group();
         for (var key in options.modelData) {
           var degrees = 360 / fieldCount * i;
-          var fieldCoords = [parseInt(Math.cos(degrees * (Math.PI / 180)) * 50), parseInt(Math.sin(degrees * (Math.PI / 180)) * 50)];
+          var fieldCoords = [parseInt(Math.cos(degrees * (Math.PI / 180)) * ((fieldCount > 8 && i%2 === 0) ? 75 : 50)), parseInt(Math.sin(degrees * (Math.PI / 180)) * ((fieldCount > 8 && i%2 === 0) ? 75 : 50))];
           var field = options.modelData[key];
           var fieldCircle = svg.circle((touchCoords[0]), (touchCoords[1]), 15);
           var fieldTitle = svg.group(svg
               .text((touchCoords[0]), (touchCoords[1]), key)
               .attr({
-                'text-anchor': (fieldCoords[0] > 0 ? 'start' : 'end'),
-                transform: 't' + (fieldCoords[0] > 0 ? 20 : -20) + ',0'
+                'text-anchor': (fieldCount <= 8 && fieldCoords[0] < 0 ? 'end' : 'start'),
+                transform: 't' + (fieldCount <= 8 && fieldCoords[0] < 0 ? -20 : 20) + ',5'
               })
           )
             .attr({
               id: 'field-title-' + key.toLowerCase(),
               class: 'field-title'
             });
+          if(fieldCount > 8)fieldTitle.attr({transform: 'r' + degrees + ',' + touchCoords[0] + ',' + touchCoords[1] + ((degrees > 90 && degrees < 270) ? 'r180' : '')});
+
           var transformString = 't' + fieldCoords[0] + ',' + fieldCoords[1];
           var fieldGroup = svg.group(fieldCircle, fieldTitle)
             .attr({class: 'field-group', id: options.name.toLowerCase() + '-field-' + key.toLowerCase()})
             .animate({transform: transformString}, 500, mina.easeinout);
+
           fieldContainer.add(fieldGroup);
           i++;
-          console.log('%o : degrees: %o | x: %o | y: %o', key, degrees, Math.cos(degrees), Math.sin(degrees));
+          console.log('%o: degrees: %o | field: [%o, %o] | %o', key, degrees, fieldCoords[0], fieldCoords[1], transformString);
         }
-        $this.point.add(fieldContainer).addClass('active');
+        $this.point.add(fieldContainer);
+        setTimeout(function(){
+          $this.point.addClass('active');
+        });
       };
 
       var movePoint = function (dx, dy, posx, posy) {
@@ -96,18 +101,15 @@ angular.module('touches').factory('Touches', ['$resource',
         var x = mouse.pageX / $window.innerWidth * 100;
         var y = mouse.pageY / $window.innerHeight * 100;
 
-        console.log('Ended! %o | [%o, %o] | W[%o, %o], BB: %o', mouse, x, y, $window.innerWidth, $window.innerHeight, document.getElementById('touch-svg').clientWidth);
         $this.options.location = [x, y];
         //$rootScope.$broadcast('touchPoint:update', $this.options);
         var touch = Touches.get({touchId: $this.options._id}, function () {
-          console.log('TT: %o', $this);
           touch.location = $this.options.location;
           touch.$update(function () {
             console.log('SUCCESS!');
           }, function () {
             console.log('ERROR!');
           });
-          console.log('T: %o', touch);
         });
       };
 

@@ -7,16 +7,25 @@ svg#touch-svg circle {
   transition: transform 0.5s;
   transform-origin: center;
 }
-svg#touch-svg g.group {
+
+g.group {
   cursor: pointer;
 }
-svg#touch-svg g.group text {
+g.group text {
   color: #FF0000;
 }
-svg#touch-svg g.group .title {
+g.group .title {
   transform-origin: center;
   transition: transform 0.5s;
   /*transform: translateX(100%);*/
+}
+g.group .field-group text {
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+g.group.active .field-group text {
+  opacity: 1;
 }
 
 section.content {

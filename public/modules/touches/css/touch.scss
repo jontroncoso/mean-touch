@@ -7,17 +7,30 @@ svg#touch-svg {
     transition: transform 0.5s;
     transform-origin: center;
   }
-  g.group {
-    cursor: pointer;
-    //filter:url('#fancy-goo');
+}
+g.group {
+  cursor: pointer;
+  //filter:url('#fancy-goo');
 
+  text {
+    color: #FF0000;
+  }
+  .title {
+    transform-origin: center;
+    transition: transform 0.5s;
+    /*transform: translateX(100%);*/
+  }
+  .field-group {
     text {
-      color: #FF0000;
+      opacity: 0;
+      transition: opacity 0.5s;
     }
-    .title {
-      transform-origin: center;
-      transition: transform 0.5s;
-      /*transform: translateX(100%);*/
+  }
+}
+g.group.active {
+  .field-group {
+    text {
+      opacity: 1;
     }
   }
 }
