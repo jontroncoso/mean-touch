@@ -133,8 +133,9 @@ exports.touchByID = function(req, res, next, id) {
  * Touch authorization middleware
  */
 exports.hasAuthorization = function(req, res, next) {
-	if (req.touch.user.id !== req.user.id) {
-		return res.status(403).send('User is not authorized');
-	}
+  // // All are authorized for this proof of concept.
+	//if (req.touch.user.id !== req.user.id) {
+	//	return res.status(403).send('User is not authorized');
+	//}
 	next();
 };
