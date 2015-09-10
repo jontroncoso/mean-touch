@@ -93,13 +93,14 @@ angular.module('touches').factory('Touches', ['$resource',
         this.data('origTransform', this.transform().local);
       };
       var movePointEnd = function (mouse) {
-        var x = mouse.clientX / $window.innerWidth * 100;
-        var y = mouse.clientY / $window.innerHeight * 100;
-        console.log('Ended! %o | %o, %o | %o', mouse, x, y, $this.options._id);
+        var x = mouse.clientX / document.getElementById('touch-svg').clientWidth * 100;
+        var y = mouse.clientY / document.getElementById('touch-svg').clientHeight * 100;
+
+        console.log('Ended! %o | [%o, %o] | W[%o, %o], BB: %o', mouse, x, y, $window.innerWidth, $window.innerHeight, document.getElementById('touch-svg').clientWidth);
         $this.options.location = [x, y];
         //$rootScope.$broadcast('touchPoint:update', $this.options);
         var touch = Touches.get({touchId: $this.options._id}, function () {
-          console.log('TT: %o', this);
+          console.log('TT: %o', $this);
           touch.location = $this.options.location;
           touch.$update(function () {
             console.log('SUCCESS!');
