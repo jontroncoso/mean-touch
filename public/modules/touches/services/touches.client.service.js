@@ -93,8 +93,8 @@ angular.module('touches').factory('Touches', ['$resource',
         this.data('origTransform', this.transform().local);
       };
       var movePointEnd = function (mouse) {
-        var x = mouse.clientX / document.getElementById('touch-svg').clientWidth * 100;
-        var y = mouse.clientY / document.getElementById('touch-svg').clientHeight * 100;
+        var x = mouse.pageX / $window.innerWidth * 100;
+        var y = mouse.pageY / $window.innerHeight * 100;
 
         console.log('Ended! %o | [%o, %o] | W[%o, %o], BB: %o', mouse, x, y, $window.innerWidth, $window.innerHeight, document.getElementById('touch-svg').clientWidth);
         $this.options.location = [x, y];
