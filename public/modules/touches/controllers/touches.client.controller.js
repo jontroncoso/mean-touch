@@ -1,14 +1,14 @@
 'use strict';
 
 // Touches controller
-angular.module('touches').controller('TouchesController', ['$scope', '$stateParams', '$location', '$window', 'Authentication', 'Touches', 'TouchPoints',
-  function ($scope, $stateParams, $location, $window, Authentication, Touches, TouchPoints) {
+angular.module('touches').controller('TouchesController', ['$scope', '$stateParams', '$location', '$window', 'Authentication', 'Touches', 'TouchManager',
+  function ($scope, $stateParams, $location, $window, Authentication, Touches, TouchManager) {
     $scope.authentication = Authentication;
     $scope.touchPoints = [];
 
-    setTimeout(function(){
-      console.log($scope.touchPoints);
-    }, 10000);
+    //setTimeout(function(){
+    //  console.log($scope.touchPoints);
+    //}, 10000);
 
     // Create new Touch
     $scope.create = function () {
@@ -59,9 +59,9 @@ angular.module('touches').controller('TouchesController', ['$scope', '$statePara
     // Find a list of Touches
     $scope.find = function () {
       Touches.query().$promise.then(function (data) {
-        console.log(TouchPoints);
-        var touchPoints = new TouchPoints();
-        touchPoints.setPoints(data);
+        console.log(TouchManager);
+        var touchPoints = new TouchManager(data);
+        //touchPoints.setPoints();
         $scope.touchPoints = touchPoints.touchPoints;
       });
     };
