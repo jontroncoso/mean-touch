@@ -59,7 +59,6 @@ angular.module('touches').controller('TouchesController', ['$scope', '$statePara
     // Find a list of Touches
     $scope.find = function () {
       Touches.query().$promise.then(function (data) {
-        console.log(TouchManager);
         var touchPoints = new TouchManager(data);
         //touchPoints.setPoints();
         $scope.touchPoints = touchPoints.touchPoints;
