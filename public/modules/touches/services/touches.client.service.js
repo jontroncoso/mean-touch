@@ -19,7 +19,7 @@ angular.module('touches').factory('Touches', ['$resource',
       var references = [];
       $rootScope.svg = new Snap('#touch-svg');
 
-      var createFields = function() {
+      var createFields = function () {
 
       };
       var createPoints = function () {
@@ -39,7 +39,7 @@ angular.module('touches').factory('Touches', ['$resource',
           }
         });
       };
-      var drawPoints= function () {
+      var drawPoints = function () {
         for (var pointKey in $this.touchPoints) {
           $this.touchPoints[pointKey].draw();
         }
@@ -65,9 +65,9 @@ angular.module('touches').factory('Touches', ['$resource',
           .selectAll('.field-group').forEach(function (touch) {
             touch.animate({transform: 't0,0'}, 500);
           });
-
-        references.foreach(function (reference) {
-          //reference.moveLine($this, )
+        console.log(references, $this.identifier);
+        references.forEach(function (reference) {
+          reference.moveLine($this.identifier);
         });
       };
 
@@ -77,7 +77,6 @@ angular.module('touches').factory('Touches', ['$resource',
         this.attr({
           transform: move
         });
-        var bBox = this.select('circle.base').getBBox();
         var identifier = this.attr('id');
         preventClick = true;
         references.forEach(function (reference) {
@@ -88,6 +87,7 @@ angular.module('touches').factory('Touches', ['$resource',
         this.data('origTransform', this.transform().local);
       };
       var movePointEnd = function (mouse) {
+        console.log('preventClick: %o', preventClick);
         var x = mouse.pageX / $window.innerWidth * 100;
         var y = mouse.pageY / $window.innerHeight * 100;
 
@@ -130,8 +130,8 @@ angular.module('touches').factory('Touches', ['$resource',
         group.add(fieldContainer);
 
         return group
-          .click(activate)
-          .drag(movePoint, movePointStart, movePointEnd);
+          .drag(movePoint, movePointStart, movePointEnd)
+          .click(activate);
       };
 
 
@@ -192,6 +192,8 @@ angular.module('touches').factory('Touches', ['$resource',
       return svg.group(fieldCircle, fieldTitle)
         .attr({class: 'field-group', id: options.name.toLowerCase() + '-field-' + options.key.toLowerCase()});
     };
+
+
     this.activate = function () {
       var degrees = 360 / options.fieldCount * options.i;
       fieldCoords = [
@@ -209,21 +211,23 @@ angular.module('touches').factory('Touches', ['$resource',
           transform: 'r' + degrees + ',' + options.touchCoords[0] + ',' + options.touchCoords[1] + ((degrees > 90 && degrees < 270) ? 'r180' : '')
         });
       }
-
+      references.forEach(function (reference) {
+        reference.moveLine(options.touchPoint.identifier, fieldCoords[0], fieldCoords[1], true);
+      });
       $this.fieldGroup.animate({transform: transformString}, 500, mina.easeinout);
     };
+
+
     this.addReference = function (reference) {
       references.push(reference);
       options.touchPoint.addReference(reference);
     };
+
     // need this for drag, since only mouse coords and coordinate difference (not object) center are given on move
     this.coords = function () {
       return [options.touchCoords[0] + fieldCoords[0], options.touchCoords[1] + fieldCoords[1]];
     };
-    // polymorphism with field to return touchPoint name since those are use to differentiate the "head or tail" of the line
-    this.collectionName = function () {
-      return options.touchPoint;
-    };
+
     this.fieldGroup = create();
     this.touchPoint = options.touchPoint;
   };
@@ -245,24 +249,43 @@ angular.module('touches').factory('Touches', ['$resource',
         .attr({strokeWidth: 5, stroke: 'black', strokeLinecap: 'round'});
     };
 
-    this.moveLine = function (identifier, dx, dy) {
-      var selected;
+    this.moveLine = function (identifier, dx, dy, animate) {
+      console.log('moveLine i: %o, dx: %o, dy: %o', identifier, dx, dy);
+      var tempCoords = {};
       if (touchMap[identifier] === 'field') {
-        selected = field;
-        line.attr({x1: fieldCoords[0] + dx, y1: fieldCoords[1] + dy});
+        tempCoords = {
+          x1: fieldCoords[0],
+          y1: fieldCoords[1]
+        };
+        console.log(tempCoords);
+        if (typeof dx !== 'undefined' && typeof dy !== 'undefined') {
+          tempCoords.x1 += dx;
+          tempCoords.y1 += dy;
+        }
+      } else if (touchMap[identifier] === 'collection') {
+        tempCoords = {
+          x2: touchCoords[0],
+          y2: touchCoords[1]
+        };
+        if (typeof dx !== 'undefined' && typeof dy !== 'undefined') {
+          tempCoords.x2 += dx;
+          tempCoords.y2 += dy;
+        }
       }
-      else if (touchMap[identifier] === 'collection') {
-        selected = collection;
-        line.attr({x2: touchCoords[0] + dx, y2: touchCoords[1] + dy});
-      }
-      else {
-        selected = null;
+      console.log(tempCoords);
+
+      if (typeof animate !== 'undefined' && animate) {
+        line.animate(tempCoords, 500);
+      } else {
+        line.attr(tempCoords);
       }
     };
     this.moveStopLine = function () {
+      console.log('STOP!');
       fieldCoords = [parseInt(line.attr('x1')), parseInt(line.attr('y1'))];
       touchCoords = [parseInt(line.attr('x2')), parseInt(line.attr('y2'))];
     };
+    this.touchMap = touchMap;
 
     var line = create();
   };
